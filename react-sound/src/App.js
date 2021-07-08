@@ -1,46 +1,24 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import song from "./static/bbell.wav";
 
-// Import your audio file
-import song from "./static/dbell.mp3";
+export default function App() {
+  const [audio] = useState(new Audio(song));
+  const [isPlaying, setIsPlaying] = useState(false);
 
-class App extends Component {
-  // Create state
-  state = {
-    // Get audio file in a variable
-    audio: new Audio(song),
-
-    // Set initial state of song
-    isPlaying: false,
-  };
-
-  // Main function to handle both play and pause operations
-  playPause = () => {
-    // Get state of song
-    let isPlaying = this.state.isPlaying;
-
-    if (isPlaying) {
-      // Pause the song if it is playing
-      this.state.audio.pause();
+  function playPause() {
+    if (isPlaying === false) {
+      setIsPlaying(true);
+      audio.play();
     } else {
-      // Play the song if it is paused
-      this.state.audio.play();
+      setIsPlaying(false);
+      audio.pause();
     }
-
-    // Change the state of song
-    this.setState({ isPlaying: !isPlaying });
-  };
-
-  render() {
-    return (
-      <div>
-        {/* Show state of song on website */}
-        <p>{this.state.isPlaying ? "Song is Playing" : "Song is Paused"}</p>
-
-        {/* Button to call our main function */}
-        <button onClick={this.playPause}>Play | Pause</button>
-      </div>
-    );
   }
-}
 
-export default App;
+  return (
+    <div>
+      <p>{isPlaying ? "Song is Playing" : "Song is Paused"}</p>
+      <button onClick={playPause}>Play | Pause</button>
+    </div>
+  );
+}
